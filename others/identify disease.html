@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CROPDOC-identify disease</title>
+    <meta   h   charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <script>
+        function validateAndDisplayImage() {
+            const cropSelection = document.getElementById('cropSelection');
+            const selectedCrop = cropSelection.value;
+            const fileInput = document.getElementById('fileInput');
+            const imageContainer = document.getElementById('imageContainer');
+            const diseaseQuestions = document.getElementById('diseaseQuestions');
+            const selectedFile = fileInput.files[0];
+    
+            if (selectedCrop === '') {
+                alert('Please select a crop before uploading an image.');
+                return;
+            }
+    
+            if (selectedFile) {
+                const reader = new FileReader();
+    
+                reader.onload = function (e) {
+                    // Create an image element and set its source to the selected file
+                    const imageElement = document.createElement('img');
+                    imageElement.src = e.target.result;
+                    imageElement.style.maxWidth = '250px';
+                    imageElement.style.maxHeight = '250px'; // Set the max width to 250px
+                    imageContainer.innerHTML = ''; // Clear previous image if any
+                    imageContainer.appendChild(imageElement);
+    
+                    // Show the disease-related questions
+                    
+                    diseaseQuestions.style.display = 'block';
+                    
+                };
+    
+                reader.readAsDataURL(selectedFile);
+                
+            }
+        }
+        
+        // Function to display the option name when typing its id
+        function displayOptionNameById(id) {
+            const option = document.getElementById(id);
+            if (option) {
+                alert(option.innerText);
+            } else {
+                alert('Option not found.');
+            }
+        }
+    </script>
+    <script>
+        function displayCropName() {
+            const selectedCrop = document.getElementById("cropSelection");
+            const selectedCropName = selectedCrop.options[selectedCrop.selectedIndex].text;
+            const imageContainer = document.getElementById("imageContainer");
+
+            if (selectedCrop.selectedIndex === 0) {
+                imageContainer.textContent = ""; // Clear the text if "Select the crop below" is chosen
+            } else {
+                imageContainer.textContent = `Selected Crop: ${selectedCropName}`;
+            }
+        }
+    </script>
+    <style type="text/css">
+
+        .image {
+            width: 100%;
+            height: 190px;
+            border: 3px solid green;
+            background-image:url(c5.webp);
+            text-align: center;
+            font-family: fantasy;
+            font-weight: bold;
+            font-size: 150px;
+            color: rgb(37, 85, 91);
+            line-height: 190px; }
+            .image-symbol {
+            float: left;
+            margin-left: 0px; 
+            height: 90%;
+            width: 250px;
+            padding: 10px;
+            }
+            .options {
+            background-color: rgb(113, 142, 83);
+            width: 100%;
+            height: 50px;
+            border: 3px solid rgb(90, 157, 73);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .options a {
+            text-decoration: none;
+            color: white;
+            font-size: 25px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+            .bgcolor{
+                background-color: olive;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+</head>
+<body>
+    <div class="image">CROPDOC<img src="leafsymbol-photoaidcom-cropped.jpg" class="image-symbol"></div>
+    <div class="options">
+        <a href="front.html" ><button style="background-color:aliceblue;height: 100%;">Home</button>
+        <a href="identify disease.html"><button style="background-color:aliceblue;height: 100%;" > Identify disease</button></a>
+        <a href="yeild prediction.html"><button style="background-color:aliceblue;height: 100%;">Yeild Prediction</button></a>
+        <a href="fertigation.html"><button style="background-color:aliceblue;height: 100%;">Fertigation</button></a>
+        <a href="herbicide.html"><button style="background-color:aliceblue;height: 100%;">Herbicides</button></a>
+        <a href="others.html"><button style="background-color:aliceblue; height: 100%;">Others</button></a>
+    </div>
+    <div class="bgcolor">
+    <h1 style="text-align: center; color: aliceblue;font-size: xx-large;"><strong>FIND UR CROP DISEASE</strong></h1>
+    <div style="font-size: 30px;padding-left: 50px;">Crop Name:    <select id="cropSelection" style="font-size: 20px; padding-left: 50px;" onchange="displayCropName()">
+
+        <option value="" id="defaultOption">Select the crop below</option>
+        <option value="ap" id="ap">Apple</option>
+        <option value="barley" id="barley">Barley</option>
+        <option value="banana" id="banana">Banana</option>
+        <option value="beans" id="beans">Beans</option>
+        <option value="brinjal" id="brinjal">Brinjal</option>
+        <option value="cabbage" id="cabbage">Cabbage</option>
+        <option value="cherry" id="cherry">Cherry</option>
+        <option value="chilly" id="chilly">Chilly</option>
+        <option value="corn" id="corn">Corn</option>
+        <option value="coconut" id="coconut">Coconut</option>
+        <option value="dates" id="dates">Dates</option>
+        <option value="grape" id="grape">Grape</option>
+        <option value="hibiscus" id="hibiscus">Hibiscus</option>
+        <option value="kambu" id="kambu">Kambu</option>
+        <option value="mango" id="mango">Mango</option>
+        <option value="millet" id="millet">Millet</option>
+        <option value="orange" id="orange">Orange</option>
+        <option value="peach" id="peach">Peach</option>
+        <option value="pepper" id="pepper">Pepper</option>
+        <option value="potato" id="potato">Potato</option>
+        <option value="pomegranate" id="pomegranate">Pomegranate</option>
+        <option value="ragi" id="ragi">Ragi</option>
+        <option value="raspberry" id="raspberry">Raspberry</option>
+        <option value="soyabeans" id="soyabeans">Soyabeans</option>
+        <option value="squash" id="squash">Squash</option>
+        <option value="strawberry" id="strawberry">Strawberry</option>
+        <option value="tomato" id="tomato">Tomato</option>
+        <option value="turmeric" id="turmeric">Turmeric</option>
+        <option value="tamarind" id="tamarind">Tamarind</option>
+    </select>
+    </div>
+    <p style="font-size: 30px; padding-left: 50px;">
+        <br>Upload the image of the crop:
+        <input type="file" id="fileInput" accept="image/*" onchange="validateAndDisplayImage()">
+    </p>
+    <div style="font-size: 30px; padding-left: 50px;">Crop Image:</div>
+    <div style="font-size: 30px; padding-left: 150px;" id="imageContainer"></div>
+    <div id="cropSelection"></div>
+    <div id="diseaseQuestions" style="display: none;">
+        <div style="font-size: 30px; padding-left: 50px;">Does your crop have disease? (Yes/No):</div>
+        <div>&nbsp;</div>
+        <div style="font-size: 28px; padding-left: 50px;">If yes,</div>
+        <div style="font-size: 30px; padding-left: 50px;">Disease name:</div>
+        <div>&nbsp;</div>
+        <div style="font-size: 30px; padding-left: 50px;">Cause of Disease:</div>
+        <div>&nbsp;</div>
+        <div style="font-size: 30px; padding-left: 50px;">Chemicals to cure:</div>
+        <div>&nbsp;</div>
+        <div style="font-size: 30px; padding-left: 50px;">Medicine name:</div>
+        <div>&nbsp;</div>
+        <div style="font-size: 30px; padding-left: 50px;">Curing duration:</div>
+    </div>
+</div>
+
+{% if result %}
+<div style="font-size: 30px; padding-left: 50px;">Disease name: {{ result }}</div>
+<div>&nbsp;</div>
+<div style="font-size: 30px; padding-left: 50px;">Chemicals to cure: {{ chemical }}</div>
+<div>&nbsp;</div>
+<div style="font-size: 30px; padding-left: 50px;">Medicine name: {{ Medicine }}</div>
+{% endif %}
+</body>
