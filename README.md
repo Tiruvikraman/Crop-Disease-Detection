@@ -1,1 +1,1 @@
-# Crop-Disease-Detection
+# Crop-Disease-Detection and Yeild prediction
