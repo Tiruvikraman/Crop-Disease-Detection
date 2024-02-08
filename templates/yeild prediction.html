@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CROPDOC-Yeild Prediction </title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='file.css') }}">
+    
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("dataForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const cropname = document.getElementById("cropname").value;
+            const croptype = document.getElementById("croptype").value;
+            const state = document.getElementById("state").value;
+            const area = document.getElementById("area").value;
+            const production = document.getElementById("production").value;
+            const rainfall = document.getElementById("rain").value;
+            const fertilizer = document.getElementById("fertilizer").value;
+            const pesticide = document.getElementById("pesticide").value;
+
+            const currentYearData = {
+                Crop: [cropname],
+                Crop_Year: [2023],
+                Season: [croptype],
+                State: [state],
+                Area: [area],
+                Production: [production],
+                Annual_Rainfall: [rainfall],
+                Fertilizer: [fertilizer],
+                Pesticide: [pesticide]
+            };
+
+            fetch("/crop_yield_prediction", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(currentYearData),
+            })
+            .then((response) => response.json())  // Parse response as JSON
+            .then((data) => {
+                console.log("Data received:", data);
+
+                // Check if 'result' exists in the response
+                if ('result' in data) {
+                    document.getElementById("output").innerHTML = 'Crop Yield Prediction Result:' + data.result+"   units";
+                } else {
+                    console.error("Invalid response format:", data);
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        });
+    });
+</script>
+
+</head>
+<body class="contentbgcolor">
+    {% include 'options.html' %}
+    <div class="capitalize"><h2>Crop Yield Prediction  </h2></div>
+    <p class="paratextsize curved-block">Welcome to the Crop Yield Prediction tool! This page allows you to predict the agricultural yield for various crops in specific regions and years. Whether you're a farmer, researcher, or agricultural enthusiast, our predictive model can help you make informed decisions.</p>
+    <div><br></div></div>
+    <div class="capitalize"><h2>How to Use    </h2></div>
+    <div class="paratextsize">
+        <ol class="curved-block">
+            <li >
+                <p style="font-weight: 600; font-size: x-large;"><h3> Crop:</h3>
+                Choose the crop you want to predict the yield for from the dropdown menu. We support a wide range of crops, so find the one you're interested in.</p>
+            </li>
+            <li>
+                <p style="font-weight: 600;font-size: x-large;">Select Season:</p>
+                <p>Specify the season (e.g., Kharif, Rabi, Summer, Winter, Autumn) during which the crop is grown.</p>
+            </li>
+            <li>
+                <p style="font-weight: 600;font-size: x-large;">Select State:</p>
+                <p>Pick the state in India where you're interested in making the prediction. Different states have varying climatic conditions that can affect crop yield.</p>
+            </li>
+            <li>
+                <p style="font-weight: 600;font-size: x-large;">Provide Additional Information:</p>
+                <p>Depending on the crop, you may need to provide additional information such as the area cultivated, annual rainfall, fertilizer usage, and pesticide usage. These factors can significantly impact yield.</p>
+            </li>
+            <li>
+                <p style="font-weight: 600;font-size: x-large;">Predict Yield:</p>
+                <p>After entering all the necessary information, click the "Predict Yield" button. Our predictive model will analyze the data and provide you with an estimate of the crop yield for the specified year and location.</p>
+            </li>
+        </ol>
+    </div>
+    <div class="capitalize" ><h1>know your crop yield   </h1></div>
+    <form id="dataForm" class="curved-block">
+        <div style="font-size: 25px;padding-left: 80px;"> Select Crop Name:
+            <select id="cropname" style="font-size: 20px; padding-left: 50px;">
+                <option value="" id="defaultOption">Select the crop below</option>
+                
+        <option value="Arecanut" id="Arecanut">Arecanut</option>
+        <option value="Arhar/Tur" id="Arhar_Tur">Arhar/Tur</option>
+        <option value="Bajra" id="Bajra">Bajra</option>
+        <option value="Banana" id="Banana">Banana</option>
+        <option value="Barley" id="Barley">Barley</option>
+        <option value="Black pepper" id="Black_pepper">Black pepper</option>
+        <option value="Cardamom" id="Cardamom">Cardamom</option>
+        <option value="Cashewnut" id="Cashewnut">Cashewnut</option>
+        <option value="Castor seed" id="Castor_seed">Castor seed</option>
+        <option value="Coconut" id="Coconut">Coconut</option>
+        <option value="Coriander" id="Coriander">Coriander</option>
+        <option value="Cotton(lint)" id="Cotton_lint">Cotton(lint)</option>
+        <option value="Cowpea(Lobia)" id="Cowpea_Lobia">Cowpea(Lobia)</option>
+        <option value="Dry chillies" id="Dry_chillies">Dry chillies</option>
+        <option value="Garlic" id="Garlic">Garlic</option>
+        <option value="Ginger" id="Ginger">Ginger</option>
+        <option value="Gram" id="Gram">Gram</option>
+        <option value="Groundnut" id="Groundnut">Groundnut</option>
+        <option value="Guar seed" id="Guar_seed">Guar seed</option>
+        <option value="Horse-gram" id="Horse_gram">Horse-gram</option>
+        <option value="Jowar" id="Jowar">Jowar</option>
+        <option value="Jute" id="Jute">Jute</option>
+        <option value="Khesari" id="Khesari">Khesari</option>
+        <option value="Linseed" id="Linseed">Linseed</option>
+        <option value="Maize" id="Maize">Maize</option>
+        <option value="Masoor" id="Masoor">Masoor</option>
+        <option value="Mesta" id="Mesta">Mesta</option>
+        <option value="Moong(Green Gram)" id="Moong_Green_Gram">Moong(Green Gram)</option>
+        <option value="Moth" id="Moth">Moth</option>
+        <option value="Niger seed" id="Niger_seed">Niger seed</option>
+        <option value="Oilseeds total" id="Oilseeds_total">Oilseeds total</option>
+        <option value="Onion" id="Onion">Onion</option>
+        <option value="Other Rabi pulses" id="Other_Rabi_pulses">Other Rabi pulses</option>
+        <option value="Other Cereals" id="Other_Cereals">Other Cereals</option>
+        <option value="Other Kharif pulses" id="Other_Kharif_pulses">Other Kharif pulses</option>
+        <option value="Other Summer Pulses" id="Other_Summer_Pulses">Other Summer Pulses</option>
+        <option value="Peas & beans (Pulses)" id="Peas_and_beans_Pulses">Peas & beans (Pulses)</option>
+        <option value="Potato" id="Potato">Potato</option>
+        <option value="Ragi" id="Ragi">Ragi</option>
+        <option value="Rapeseed &Mustard" id="Rapeseed_Mustard">Rapeseed &Mustard</option>
+        <option value="Rice" id="Rice">Rice</option>
+        <option value="Rice2" id="Rice2">Rice2</option>
+        <option value="Safflower" id="Safflower">Safflower</option>
+        <option value="Sannhamp" id="Sannhamp">Sannhamp</option>
+        <option value="Sesamum" id="Sesamum">Sesamum</option>
+        <option value="Small millets" id="Small_millets">Small millets</option>
+        <option value="Soyabean" id="Soyabean">Soyabean</option>
+        <option value="Sugarcane" id="Sugarcane">Sugarcane</option>
+        <option value="Sunflower" id="Sunflower">Sunflower</option>
+        <option value="Sweet potato" id="Sweet_potato">Sweet potato</option>
+        <option value="Tapioca" id="Tapioca">Tapioca</option>
+        <option value="Tobacco" id="Tobacco">Tobacco</option>
+        <option value="Turmeric" id="Turmeric">Turmeric</option>
+        <option value="Urad" id="Urad">Urad</option>
+        <option value="Wheat" id="Wheat">Wheat</option>
+        <option value="other oilseeds" id="other_oilseeds">other oilseeds</option>
+    </select>
+</div>
+<p></p>
+<div style="font-size: 25px;padding-left: 80px;">Select Crop-Type:
+    <select id="croptype" style="font-size: 20px; padding-left: 50px;">
+        <option value="" id="defaultOption">Select the crop-type below</option>
+        <option value="Autumn" id="Autumn">Autumn</option>
+        <option value="Kharif" id="Kharif">Kharif</option>
+        <option value="Rabi" id="Rabi">Rabi</option>
+        <option value="Summer" id="Summer">Summer</option>
+        <option value="Whole Year" id="Whole_Year">Whole Year</option>
+        <option value="Winter" id="Winter">Winter</option>
+    </select>
+</div>
+<p></p>
+<div style="font-size: 25px;padding-left: 80px;">Select State:
+    <select id="state" style="font-size: 20px; padding-left: 50px;">
+    <option value="" id="defaultOption">Select the State below</option>
+    <option value="Andhra Pradesh" id="Andhra_Pradesh">Andhra Pradesh</option>
+    <option value="Arunachal Pradesh" id="Arunachal_Pradesh">Arunachal Pradesh</option>
+    <option value="Assam" id="Assam">Assam</option>
+    <option value="Bihar" id="Bihar">Bihar</option>
+    <option value="Chhattisgarh" id="Chhattisgarh">Chhattisgarh</option>
+    <option value="Delhi" id="Delhi">Delhi</option>
+    <option value="Goa" id="Goa">Goa</option>
+    <option value="Gujarat" id="Gujarat">Gujarat</option>
+    <option value="Haryana" id="Haryana">Haryana</option>
+    <option value="Himachal Pradesh" id="Himachal_Pradesh">Himachal Pradesh</option>
+    <option value="Jammu and Kashmir" id="Jammu_and_Kashmir">Jammu and Kashmir</option>
+    <option value="Jharkhand" id="Jharkhand">Jharkhand</option>
+    <option value="Karnataka" id="Karnataka">Karnataka</option>
+    <option value="Kerala" id="Kerala">Kerala</option>
+    <option value="Madhya Pradesh" id="Madhya_Pradesh">Madhya Pradesh</option>
+    <option value="Maharashtra" id="Maharashtra">Maharashtra</option>
+    <option value="Manipur" id="Manipur">Manipur</option>
+    <option value="Meghalaya" id="Meghalaya">Meghalaya</option>
+    <option value="Mizoram" id="Mizoram">Mizoram</option>
+    <option value="Nagaland" id="Nagaland">Nagaland</option>
+    <option value="Odisha" id="Odisha">Odisha</option>
+    <option value="Puducherry" id="Puducherry">Puducherry</option>
+    <option value="Punjab" id="Punjab">Punjab</option>
+    <option value="Sikkim" id="Sikkim">Sikkim</option>
+    <option value="Tamil Nadu" id="Tamil_Nadu">Tamil Nadu</option>
+    <option value="Telangana" id="Telangana">Telangana</option>
+    <option value="Tripura" id="Tripura">Tripura</option>
+    <option value="Uttar Pradesh" id="Uttar_Pradesh">Uttar Pradesh</option>
+    <option value="Uttarakhand" id="Uttarakhand">Uttarakhand</option>
+    <option value="West Bengal" id="West_Bengal">West Bengal</option>
+</select>
+</div>
+<p></p>
+<label style="font-size: 25px;padding-left: 80px;" for="area">Enter the Area(in hectares):</label>
+<input type="text" id="area" name="area">
+<p></p>
+<label style="font-size: 25px;padding-left: 80px;" for="production">Enter the Production(in metric tons)</label>
+<input type="text" id="production" name="production">
+<p></p>
+<label style="font-size: 25px;padding-left: 80px;" for="rainfall">Enter the Rainfall(mm):</label>
+<input type="text" id="rain" name="rain">
+<p></p>
+<label style="font-size: 25px;padding-left: 80px;" for="fertilizer">Enter the fertilizer(in kilograms)</label>
+<input type="text" id="fertilizer" name="fertilizer">
+<p></p>
+<label style="font-size: 25px;padding-left: 80px;" for="pesticide">Enter the Pesticide(in kilograms)</label>
+<input type="text" id="pesticide" name="pesticide">
+<input type="submit" value="Submit">
+<p></p>
+<div>
+    <h2 id="output"></h2>
+    {% if result %}
+        <h2>Crop Yield Prediction Result: {{ result }}</h2>
+    {% endif %}
+</div>
+</form>
+
+
+</body></html>
+    

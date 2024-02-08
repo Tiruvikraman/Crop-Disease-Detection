@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CROPDOC-identify disease</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='file.css') }}">
+
+    <script>
+        function validateAndDisplayImage() {
+            const cropSelection = document.getElementById('cropSelection');
+            const selectedCrop = cropSelection.value;
+            const fileInput = document.getElementById('fileInput');
+            const imageContainer = document.getElementById('imageContainer');
+            const diseaseQuestions = document.getElementById('diseaseQuestions');
+            const selectedFile = fileInput.files[0];
+
+            if (selectedCrop === '') {
+                alert('Please select a crop before uploading an image.');
+                return;
+            }
+
+            if (selectedFile) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // Create an image element and set its source to the selected file
+                    const imageElement = document.createElement('img');
+                    imageElement.src = e.target.result;
+                    imageElement.style.maxWidth = '250px';
+                    imageElement.style.maxHeight = '250px'; // Set the max width to 250px
+                    imageContainer.innerHTML = ''; // Clear previous image if any
+                    imageContainer.appendChild(imageElement);
+
+                    // Show the disease-related questions
+                    diseaseQuestions.style.display = 'block';
+                };
+
+                reader.readAsDataURL(selectedFile);
+            }
+        }
+
+        // Function to display the option name when typing its id
+        function displayOptionNameById(id) {
+            const option = document.getElementById(id);
+            if (option) {
+                alert(option.innerText);
+            } else {
+                alert('Option not found.');
+            }
+        }
+
+        function displayCropName() {
+            const selectedCrop = document.getElementById("cropSelection");
+            const selectedCropName = selectedCrop.options[selectedCrop.selectedIndex].text;
+            const imageContainer = document.getElementById("imageContainer");
+
+            if (selectedCrop.selectedIndex === 0) {
+                imageContainer.textContent = ""; // Clear the text if "Select the crop below" is chosen
+            } else {
+                imageContainer.textContent = `Selected Crop: ${selectedCropName}`;
+            }
+        }
+    </script>
+    
+</head>
+<body class="contentbgcolor">
+    {% include 'options.html' %}
+    <div class="curved-block">
+        <h1 style="text-align: center; color: rgb(0, 0, 0);font-size: xx-large;"><strong>FIND UR CROP DISEASE</strong><img src="../static/sample.jpg" class="image-right" style="height: fit-content;"></h1>
+        <form action="/identify_disease" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="predicted_class" id="predictedClass" value="">
+
+            <div style="font-size: 30px;padding-left: 50px;">Crop Name:
+                <select id="cropSelection"  name="cropSelection" style="font-size: 20px; padding-left: 50px;" onchange="displayCropName()">
+                    <option value="" id="defaultOption">Select the crop below</option>
+                    <option value="apple" id="apple">Apple</option>
+                    <option value="blueberry" id="blueberry">Blueberry</option>
+                    <option value="cherry" id="cherry">Cherry</option>
+
+                    <option value="corn" id="corn">Corn</option>
+                    <option value="grape" id="grape">Grape</option>
+                    <option value="orange" id="orange">Orange</option>
+                    <option value="peach" id="peach">Peach</option>
+                    <option value="pepper" id="pepper">Pepper</option>
+                    <option value="potato" id="potato">Potato</option>
+                    <option value="soyabeans" id="soyabeans">Soyabeans</option>
+                    <option value="squash" id="squash">Squash</option>
+                    <option value="strawberry" id="strawberry">Strawberry</option>
+                    <option value="tomato" id="tomato">Tomato</option>
+                
+                </select>
+            </div>
+
+            <p style="font-size: 30px; padding-left: 50px;">
+                <br>Upload the image of the crop:
+                <input type="file" id="fileInput" name="file" accept="image/*" onchange="validateAndDisplayImage()">
+            </p>
+            <div style="font-size: 30px; padding-left: 50px;">Crop Image:</div>
+            <div style="font-size: 30px; padding-left: 150px;" id="imageContainer"></div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    {% if result %}<div class="curved-block-red" >
+    <div  class="curved-block-red" style="font-style: normal;font-size: 25px;">
+    
+    <div style="padding-left: 50px; "><b>Does your crop have disease? </b>(Yes/No): {{ yesno }}</div>
+    <div>&nbsp;</div>
+    <div style=" padding-left: 50px;"><b>If yes,</b></div>
+    <div style=" padding-left: 50px;"><b>Disease name:</b> {{ result }}</div>
+    <div>&nbsp;</div>
+    <div style=" padding-left: 50px;"><b>Cause of Disease:</b>{{ cause }}</div>
+    <div>&nbsp;</div>
+    <div style=" padding-left: 50px;"><b>Chemicals to cure:</b> {{ chemical }}</div>
+    <div>&nbsp;</div>
+    <div  style="padding-left: 50px;"><b>Curing Duration:</b>{{ duration }}</div>
+    <div>&nbsp;</div>
+    <div style="padding-left: 50px;"><b>Product Link:</b><a href="{{ url }}" target="_blank">{{ url }}</a></div>
+    <div>&nbsp;</div>
+    <div style=" padding-left: 50px;"><b>Medicine:</b> {{ Medicine }}</div>
+    <div>&nbsp;</div>
+    <div style="padding-left: 50px;">
+        <a href="{{ url }}" target="_blank">
+            <img class="image1" src="{{ url_for('static', filename='pesticideimg/' + Medicine + '.jpg') }}" alt="Medicine Image">
+        </a>
+    </div>
+    <div>&nbsp;</div>
+    {% endif %}
+</body>
+</html>
